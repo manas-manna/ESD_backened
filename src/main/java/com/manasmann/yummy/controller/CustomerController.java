@@ -1,9 +1,7 @@
 package com.manasmann.yummy.controller;
 
 import com.manasmann.yummy.dto.CustomerRequest;
-import com.manasmann.yummy.entity.Customer;
 import com.manasmann.yummy.service.CustomerService;
-import com.manasmann.yummy.validation.ValidationGroups;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,4 +26,10 @@ public class CustomerController {
     public ResponseEntity<String> loginCustomer(@RequestBody @Valid @Validated(LoginGroup.class) CustomerRequest request) {
         return ResponseEntity.ok(customerService.loginCustomer(request));
     }
+
+    @GetMapping("/show")
+    public String showCustomer() {
+        return "Coming to here";
+    }
+
 }
