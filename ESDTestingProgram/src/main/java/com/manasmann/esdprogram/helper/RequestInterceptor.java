@@ -28,6 +28,8 @@ public class RequestInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        request.setAttribute("AuthenticatedEmail", username);
+
         return true;
     }
 }

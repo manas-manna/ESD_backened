@@ -2,6 +2,7 @@ package com.manasmann.esdprogram.controller;
 
 import com.manasmann.esdprogram.dto.CustomerRequest;
 import com.manasmann.esdprogram.dto.CustomerResponse;
+import com.manasmann.esdprogram.dto.CustomerUpdateRequest;
 import com.manasmann.esdprogram.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,4 +32,17 @@ public class CustomerController {
     public ResponseEntity<String> createCustomer(@RequestBody @Valid CustomerRequest request) {
         return ResponseEntity.ok(customerService.createCustomer(request));
     }
+
+    @DeleteMapping("/{email}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable("email") String email) {
+        return ResponseEntity.ok(customerService.deleteCustomer(email));
+    }
+
+    @PatchMapping("/{email}")
+    public ResponseEntity<String> updateCustomer(
+            @PathVariable String email,
+            @RequestBody @Valid CustomerUpdateRequest updateRequest) {
+        return ResponseEntity.ok(customerService.updateCustomer(email, updateRequest));
+    }
+
 }
