@@ -2,17 +2,18 @@ package com.manasmann.esdprogram.controller;
 
 import com.manasmann.esdprogram.dto.CustomerRequest;
 import com.manasmann.esdprogram.dto.CustomerResponse;
-import com.manasmann.esdprogram.dto.CustomerUpdateRequest;
 import com.manasmann.esdprogram.service.CustomerService;
+import com.manasmann.esdprogram.validation.ValidationGroups.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/customers")
+@RequestMapping("/api/v1/customers")
 @RequiredArgsConstructor
 public class CustomerController {
 
@@ -29,7 +30,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createCustomer(@RequestBody @Valid CustomerRequest request) {
+    public ResponseEntity<String> createCustomer(@RequestBody @Valid @Validated(CustomerRegistrationGroup.class) CustomerRequest request) {
         return ResponseEntity.ok(customerService.createCustomer(request));
     }
 
@@ -41,8 +42,8 @@ public class CustomerController {
     @PatchMapping("/{email}")
     public ResponseEntity<String> updateCustomer(
             @PathVariable String email,
-            @RequestBody @Valid CustomerUpdateRequest updateRequest) {
-        return ResponseEntity.ok(customerService.updateCustomer(email, updateRequest));
+            @RequestBody @Valid @Validated(CustomerUpdateGroup.class) CustomerRequest request) {
+        return ResponseEntity.ok(customerService.updateCustomer(email, request));
     }
 
 }

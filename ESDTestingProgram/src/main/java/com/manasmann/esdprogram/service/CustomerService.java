@@ -2,8 +2,6 @@ package com.manasmann.esdprogram.service;
 
 import com.manasmann.esdprogram.dto.CustomerRequest;
 import com.manasmann.esdprogram.dto.CustomerResponse;
-import com.manasmann.esdprogram.dto.LoginRequest;
-import com.manasmann.esdprogram.dto.CustomerUpdateRequest;
 import com.manasmann.esdprogram.entity.Customer;
 import com.manasmann.esdprogram.exception.CustomerNotFoundException;
 import com.manasmann.esdprogram.exception.UnauthorisedAccessException;
@@ -12,6 +10,7 @@ import com.manasmann.esdprogram.helper.JWTHelper;
 import com.manasmann.esdprogram.mapper.CustomerMapper;
 import com.manasmann.esdprogram.repo.CustomerRepo;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,7 +51,7 @@ public class CustomerService {
 
     }
 
-    public String updateCustomer(String email, CustomerUpdateRequest updateRequest) {
+    public String updateCustomer(String email, @Valid CustomerRequest updateRequest) {
         String authenticatedEmail = (String) request.getAttribute("AuthenticatedEmail");
 
         if (!email.equals(authenticatedEmail)) {
@@ -104,7 +103,7 @@ public class CustomerService {
         return customerMapper.toCustomerResponse(customer);
     }
 
-    public String login(LoginRequest request) {
+    public String login(CustomerRequest request) {
         Customer customer = getCustomer(request.email());
         if (!encryptionService.validates(request.password(), customer.getPassword())) {
             return "Wrong Password or Email";
